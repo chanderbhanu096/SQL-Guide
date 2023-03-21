@@ -50,16 +50,80 @@
   --Find the total amount of poster_qty paper ordered in the orders table.
     SELECT SUM(poster_qty) as total_amount_posterqty
     FROM ORDERS
-    723646
 
   --Find the total amount of standard_qty paper ordered in the orders table.
     SELECT SUM(standard_qty) as total_amount_standard_qty
     FROM ORDERS
-    1938346
 
   --Find the total dollar amount of sales using the total_amt_usd in the orders table.
     SELECT SUM(total_amt_usd) as total_sales_total_amt_usd
     FROM ORDERS
-    23141511.83
   
+  /* Find the total amount for each individual order that was spent on standard and gloss paper in the orders table.
+     This should give a dollar amount for each order in the table.*/
+     --this show the standard_amt_usd , gloss_amt_usd, and their sum for each order
+    SELECT standard_amt_usd, gloss_amt_usd, standard_amt_usd + gloss_amt_usd AS total_standard_gloss
+    FROM orders;
+
+  /* Though the price/standard_qty paper varies from one order to the next. I would like this 
+  ratio across all of the sales made in the orders table. */
+    SELECT SUM(standard_amt_usd)/SUM(standard_qty) AS standard_price_per_unit 
+    FROM orders;
+
+
+"MIN & Max" use cases 
+  --Use in the same way AS sum and count i,e on the column name
+  example 1
+    SELECT MIN(standard_qty) AS standard_min,
+    MIN(gloss_qty) AS gloss_min,
+    MIN(poster_qty) AS poster_min,
+    MAX(standard_qty) AS standard_max,
+    MAX(gloss_qty) AS gloss_max,
+    MAX(poster_qty) AS poster_max
+    FROM   orders
   
+"AVG" USE CASE example
+  -- when finding the average null values are ignored in numerator and denominator 
+  -- to find the average with null values use the sum and count functions. sum divided by count.
+  example 1
+    SELECT AVG(standard_qty) AS standard_avg,
+    AVG(gloss_qty) AS gloss_avg,
+    AVG(poster_qty) AS poster_avg
+    FROM orders
+"Queries on MIN, MAX, & AVERAGE"
+  -- When was the earliest order ever placed? You only need to return the date.
+    select min(occurred_at) as earliest_orderdate 
+    from orders;
+
+  -- Try performing the same query as in question 1 without using an aggregation function.
+    SELECT occurred_at 
+    FROM orders 
+    ORDER BY occurred_at
+    LIMIT 1;
+
+  --When did the most recent (latest) web_event occur?
+    select max(occurred_at) as earliest_orderdate 
+    from web_events;
+  
+  --Try to perform the result of the previous query without using an aggregation function.
+    SELECT occurred_at
+    FROM web_events
+    ORDER BY occurred_at DESC
+    LIMIT 1;
+
+  /* Find the mean (AVERAGE) amount spent per order on each paper type, as well as the mean amount of each paper type purchased per order. Your final answer 
+    should have 6 values - one for each paper type for the average number of sales, as well as the average amount.*/
+    select avg(standard_qty) as avg_standard_qty, avg(standard_qty)as avg_standard_qty, 
+      avg(poster_qty) as avg_poster_qty, avg(standard_amt_usd) as avg_standard_amt_usd, 
+      avg(gloss_amt_usd ) as avg_gloss_amt_usd, avg(poster_amt_usd) as avg_poster_amt_usd 
+      from orders;
+  
+  --how to calculate the MEDIAN. Though this is more advanced than what we have covered so far try finding - what is the MEDIAN total_usd spent on all orders? Note, this is more advanced than the topics we have covered thus far to build a general solution, but we can hard code a solution in the following way.
+    -- HINT TOTAL ROWS ARE 6912 . N/2 IS 3456   we need to find the 3456th row and 3457th row and then take the average of those two rows.
+    SELECT *
+    FROM (SELECT total_amt_usd
+          FROM orders
+          ORDER BY total_amt_usd
+          LIMIT 3457) AS Table1
+    ORDER BY total_amt_usd DESC
+    LIMIT 2;
