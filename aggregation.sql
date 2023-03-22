@@ -127,3 +127,26 @@
           LIMIT 3457) AS Table1
     ORDER BY total_amt_usd DESC
     LIMIT 2;
+
+"Group By" USE CASE example:
+  -- GROUP BY - GROUPS THE DATA BY A SPECIFIC COLUMN
+  --all the data of the same account_id is grouped together and then the sum is calculated for each group
+    SELECT account_id,
+        SUM(standard_qty) AS standard,
+        SUM(gloss_qty) AS gloss,
+        SUM(poster_qty) AS poster
+    FROM orders
+    GROUP BY account_id
+    ORDER BY account_id
+  
+  "Queries on GROUP BY:"
+  --Which account (by name) placed the earliest order? Your solution should have the account name and the date of the order.
+  select a.name,o.occurred_at
+  from accounts a
+  join orders o
+  on a.id=o.id
+  order by(o.occurred_at)
+  limit 1
+
+  --Find the total sales in usd for each account. You should include two columns - the total sales for each company's orders in usd and the company name.
+  
