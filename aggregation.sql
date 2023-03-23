@@ -149,4 +149,16 @@
   limit 1
 
   --Find the total sales in usd for each account. You should include two columns - the total sales for each company's orders in usd and the company name.
-  
+  select a.name, sum(total_amt_usd) as total_sales
+  from orders o
+  join accounts a
+  on a.id = o.account_id
+  group by a.name;  
+
+  --Via what channel did the most recent (latest) web_event occur, which account was associated with this web_event? Your query should return only three values - the date, channel, and account name.
+  select w.occurred_at, w.channel, a.name
+  from web_events w
+  join accounts a
+  on w.account_id = a.id 
+  order by w.occurred_at desc
+  limit 1;
