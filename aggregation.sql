@@ -183,3 +183,20 @@
     ON a.id = o.account_id
     GROUP BY a.name
     ORDER BY smallest_order;
+
+  --Find the total number of web_events that occurred before the first order was placed for each account. Your final table should have two columns - the account name and the number of web_events.
+
+  "Multiple group by Columns"
+    SELECT a.name, w.channel, COUNT(*)
+    FROM web_events w
+    JOIN accounts a
+    ON a.id = w.account_id
+    GROUP BY a.name, w.channel
+    ORDER BY a.name, w.channel 
+
+    or 
+    
+    SELECT account_id, channel, COUNT(id) as events
+    FROM web_events
+    GROUP BY account_id, channel
+    ORDER BY account_id, channel
