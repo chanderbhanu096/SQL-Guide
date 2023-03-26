@@ -200,3 +200,40 @@
     FROM web_events
     GROUP BY account_id, channel
     ORDER BY account_id, channel
+
+"Distinct"
+  --DISTINCT - REMOVES DUPLICATE VALUES FROM A COLUMN
+  /*DISTINCT is always used in SELECT statements, and it provides the unique rows 
+  for all columns written in the SELECT statement. Therefore, you only use DISTINCT 
+  once in any particular SELECT statement.*/
+  -- unique rows for all columns written in the SELECT statement not for the specific column
+  exampl 1
+    SELECT DISTINCT account_id, channel
+    FROM web_events
+    ORDER BY account_id
+    -- this will return all the unique account_id and channel combinations 
+
+  --query Use DISTINCT to test if there are any accounts associated with more than one region.
+    SELECT a.id as "account id", r.id as "region id", 
+    a.name as "account name", r.name as "region name"
+    FROM accounts a
+    JOIN sales_reps s
+    ON s.id = a.sales_rep_id
+    JOIN region r
+    ON r.id = s.region_id;
+    --AND
+    SELECT DISTINCT id, name
+    FROM accounts;
+    --If both queries results same number of rows then there are no accounts associated with more than one region.
+
+    --QUERY 2 Have any sales reps worked on more than one account?
+    SELECT s.id, s.name, COUNT(*) num_accounts
+    FROM accounts a
+    JOIN sales_reps s
+    ON s.id = a.sales_rep_id
+    GROUP BY s.id, s.name
+    ORDER BY num_accounts;
+    --AND
+    SELECT DISTINCT id, name
+    FROM sales_reps;
+    --If both queries results same number of rows then there are no sales reps worked on more than one account.
