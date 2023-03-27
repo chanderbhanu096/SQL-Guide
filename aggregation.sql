@@ -237,3 +237,21 @@
     SELECT DISTINCT id, name
     FROM sales_reps;
     --If both queries results same number of rows then there are no sales reps worked on more than one account.
+
+"HAVING"
+  --  Is the “clean” way to filter a query that has been aggregated, but this is also commonly done using a subquery.
+    "wrong way of doing it be because where doesn't work on aggregated data"
+    SELECT account_id,
+      SUM(total_amt_usd) AS sum_total_amt_usd
+    FROM orders
+    WHERE SUM(total_amt_usd) >= 250000
+    GROUP BY 1
+    ORDER BY 2 DESC
+
+    "right way of doing it"
+    SELECT account_id,
+      SUM(total_amt_usd) AS sum_total_amt_usd 
+    FROM orders
+    GROUP BY 1  --GROUP BY 1 is the same as GROUP BY account_id
+    HAVING SUM(total_amt_usd) >= 250000
+    ORDER BY 2 DESC --ORDER BY 2 is the same as ORDER BY sum_total_amt_usd
