@@ -255,3 +255,13 @@
     GROUP BY 1  --GROUP BY 1 is the same as GROUP BY account_id
     HAVING SUM(total_amt_usd) >= 250000
     ORDER BY 2 DESC --ORDER BY 2 is the same as ORDER BY sum_total_amt_usd
+
+  --QUERIES
+  --query 1 How many of the sales reps have more than 5 accounts that they manage?
+    SELECT s.id, s.name, COUNT(*) num_accounts
+    FROM accounts a
+    JOIN sales_reps s
+    oN s.id = a.sales_rep_id
+    GROUP BY s.id, s.name
+    HAVING COUNT(*) > 5
+    ORDER BY num_accounts;
