@@ -265,3 +265,23 @@
     GROUP BY s.id, s.name
     HAVING COUNT(*) > 5
     ORDER BY num_accounts;
+
+    --ALTERNATE WAY
+    -- using subquery
+    SELECT COUNT(*) num_reps_above5
+    FROM(SELECT s.id, s.name, COUNT(*) num_accounts
+        FROM accounts a
+        JOIN sales_reps s
+        ON s.id = a.sales_rep_id
+        GROUP BY s.id, s.name
+        HAVING COUNT(*) > 5
+        ORDER BY num_accounts) AS Table1;
+
+  --query 2 How many accounts have more than 20 orders?
+    SELECT a.id, a.name, COUNT(*) num_orders
+    FROM accounts a
+    JOIN orders o
+    ON a.id = o.account_id
+    GROUP BY a.id, a.name
+    HAVING COUNT(*) > 20
+    ORDER BY num_orders;
