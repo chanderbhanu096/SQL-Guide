@@ -340,4 +340,10 @@
     FROM orders
     GROUP BY DATE_TRUNC('day',occurred_at)  --DATE_TRUNC('day',occurred_at) is the truncated date function
     ORDER BY DATE_TRUNC('day',occurred_at)
+
+    --dow is day of week. this query find the data on which day of week we have the most sales.
+    SELECT DATE_PART('dow',occurred_at) AS day_of_week, SUM(total) AS total_qty
+    FROM orders
+    GROUP BY 1
+    oRDER BY 2
    
