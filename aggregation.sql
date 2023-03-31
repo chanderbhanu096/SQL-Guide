@@ -323,3 +323,21 @@
     GROUP BY a.id, a.name, w.channel
     ORDER BY use_of_channel DESC
     LIMIT 10;
+
+"Date Functions"
+  --aggregate functions doesn't work on date columns so we need to convert it to string
+  SELECT occurred_at, SUM(standard_qty) AS standard_qty_sum
+  FROM orders
+  GROUP BY occurred_at
+  ORDER BY occurred_at
+  /*this is not much useful because it will aggreagate/sum and group on the day with same time stamp.
+  for example "2013-12-04T04:45:54.000Z" not just "2013-12-04" */
+
+  -- Datases use data format as YYYY-MM-DD HH:MM:SS" sorted from oldest to newest
+  "DATE TRUNCATIONS" function
+    --GROUPING data by the day. by using date_trunc function which will truncate the time stamp to just the date  by setting time to 00:00:00
+    SELECT DATE_TRUNC('day',occurred_at), SUM(standard_qty) AS standard_qty_sum
+    FROM orders
+    GROUP BY DATE_TRUNC('day',occurred_at)  --DATE_TRUNC('day',occurred_at) is the truncated date function
+    ORDER BY DATE_TRUNC('day',occurred_at)
+   
