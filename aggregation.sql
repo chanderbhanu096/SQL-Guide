@@ -373,8 +373,27 @@
 
     -- truncation work from the right to the left. so if we want to truncate month then the rest of the values on the right will be truncated as well. so we need to use date_part to get the year
   
-
-
+"Case Statements"
+  --The CASE statement always goes in the SELECT clause.
+  --The CASE statement is always followed by WHEN, THEN, and ELSE.
+  --You can make any conditional statement using any conditional operator (like WHERE) between WHEN and THEN. This includes stringing together multiple conditional statements using AND and OR.
+  --The WHEN statement is always followed by a condition.
+  --You can include multiple WHEN statements, as well as an ELSE statement again, to deal with any unaddressed conditions.
+  --The THEN statement is always followed by a value.
+  --The ELSE statement is always followed by a value.
+  --The END statement always ends the CASE statement.
+  --The CASE statement is always followed by an AS statement.
+  
+  "Use example"
+  
+  SELECT id, account_id, standard_amt_usd/standard_qty AS unit_price
+  FROM orders
+  LIMIT 10;
+  --the above statement might return nan if the standard_qty is 0. so we need to use case statement to avoid that.
+  SELECT account_id, CASE WHEN standard_qty = 0 OR standard_qty IS NULL THEN 0 
+                     ELSE standard_amt_usd/standard_qty END AS unit_price
+  FROM orders
+  LIMIT 10;
 
 
 
