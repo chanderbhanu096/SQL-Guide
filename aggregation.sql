@@ -359,6 +359,24 @@
     WHERE occurred_at BETWEEN '2014-01-01' AND '2017-01-01'
     GROUP BY 1
     ORDER BY 2 DESC; 
+    --this query will give us the sales based on months from the highest to lowest between 2014 and 2017
+
+    --In which month of which year did Walmart spend the most on gloss paper in terms of dollars?
+    SELECT DATE_TRUNC('month', o.occurred_at) ord_date, SUM(o.gloss_amt_usd) tot_spent
+    FROM orders o 
+    JOIN accounts a
+    ON a.id = o.account_id
+    WHERE a.name = 'Walmart'
+    GROUP BY 1
+    ORDER BY 2 DESC
+    LIMIT 1;
+
+    -- truncation work from the right to the left. so if we want to truncate month then the rest of the values on the right will be truncated as well. so we need to use date_part to get the year
+  
+
+
+
+
 
 
    
