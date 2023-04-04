@@ -439,6 +439,30 @@
       ELSE 'Less than 1000' END AS order_level
   FROM orders
 
+  /* We would like to understand 3 different branches of customers based on the amount associated with their purchases. The top 
+  branch includes anyone with a Lifetime Value (total sales of all orders) greater than 200,000 usd. The second branch is between 
+  200,000 and 100,000 usd. The lowest branch is anyone under 100,000 usd. Provide a table that includes the level associated 
+  with each account.You should provide the account name, the total sales of all orders for the customer, and the level. Order 
+  with the top spending customers listed first. */
+  SELECT a.name, SUM(o.total) AS total_sales,
+    CASE WHEN SUM(o.total) > 200000 THEN 'Top'
+      WHEN SUM(o.total) > 100000 THEN 'Middle'
+      ELSE 'Low' END AS level
+  FROM orders o
+  JOIN accounts a
+  ON a.id = o.account_id
+  GROUP BY 1
+  ORDER BY 2 DESC.
+
+"Some important key points"
+
+    --DISTINCT	Always used in SELECT statements, and it provides the unique rows for all columns written in the SELECT statement.
+    --GROUP BY	Used to aggregate data within subsets of the data. For example, grouping for different accounts, different regions, or different sales representatives.
+    --HAVING	is the “clean” way to filter a query that has been aggregated
+    --NULLs	A datatype that specifies where no data exists in SQL
+
+
+
 
 
 
