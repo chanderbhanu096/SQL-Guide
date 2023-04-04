@@ -395,6 +395,57 @@
   FROM orders
   LIMIT 10;
 
+  -- check if the event channel is facebook or not
+  SELECT id,account_id,occurred_at,channel,
+      CASE WHEN channel = 'facebook' THEN 'yes' ELSE 'no' END AS is_facebook
+  FROM web_events
+  ORDER BY occurred_at
+
+  --check if the event channel is direct or not
+  SELECT id,account_id,occurred_at,channel,
+      case when channel = 'direct' then 'yes'
+      else 'no' end as is_direct
+  from web_events
+  order by 
+  
+  -- multiple case statement
+  SELECT account_id,occurred_at,total,
+      CASE WHEN total > 500 THEN 'Over 500'
+        WHEN total > 300 THEN '301 - 500'
+        WHEN total > 100 THEN '101 - 300'
+        ELSE '100 or under' END AS total_group
+  FROM orders
+
+  --example of using case statement with aggregate function
+  select case when total<500 then 'under 500'
+		else '500 or above' end as total_,
+    count(*) as order_count
+  from orders
+  group by 1 
+
+  "Queries with Case Statements"
+  /*Write a query to display for each order, the account ID, the total amount of the order, and the level of the 
+  order - ‘Large’ or ’Small’ - depending on if the order is $3000 or more, or smaller than $3000.*/
+  Select account_id, total, 
+    CASE WHEN total > 3000 THEN 'Large'
+      ELSE 'Small' END AS order_level
+  FROM orders
+
+  /* Write a query to display the number of orders in each of three categories, based on the total number 
+  of items in each order. The three categories are: 'At Least 2000', 'Between 1000 and 2000' and 'Less than 1000'*/
+  SELECT account_id, total, 
+    CASE WHEN total >= 2000 THEN 'At Least 2000'
+      WHEN total >= 1000 THEN 'Between 1000 and 2000'
+      ELSE 'Less than 1000' END AS order_level
+  FROM orders
+
+
+
+
+
+
+
+
 
 
 
