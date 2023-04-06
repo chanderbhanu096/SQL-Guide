@@ -20,4 +20,27 @@
 
         --Both subqueries and joins are essentially bringing multiple tables together (whether an existing table is first manipulated or not) to generate a single output.
 
+        example:
+        steps:
+            --1. Create a subquery that aggregates the average price of all products.
+            --2. Join the subquery to the products table to select the product_id, name, and price of all products that are more expensive than the average price.
+        
+        1.--First, we needed to group by the day and channel.
+        SELECT DATE_TRUNC('day',occurred_at) AS day,
+        channel, COUNT(*) as events
+        FROM web_events
+        GROUP BY 1,2
+        ORDER BY 3 DESC;
+
+        2.--Then, we needed to group by the channel and calculate the average number of events per day.
+        Select channel,Avg(events) as average_events
+        from 
+            (SELECT DATE_TRUNC('day',occurred_at) AS day,
+       	    channel, COUNT(*) as events
+		    FROM web_events
+		    GROUP BY 1,2
+		    ORDER BY 3 DESC) sub --subquery
+        GROUP BY channel
+		ORDER BY 2 DESC;
+        
 
