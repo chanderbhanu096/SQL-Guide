@@ -21,4 +21,21 @@
 
     "to calculate sum of the salary column and showing in sum column for every employee"
         SELECT salary, sum(salary) OVER () FROM empsalary;
+
+
+"Percentile function"
+    --Percentiles Syntax
+    'The following components are important to consider when building a query with percentiles:
+
+    1. NTILE + the number of buckets you’d like to create within a column (e.g., 100 buckets
+    would create traditional percentiles, 4 buckets would create quartiles, etc.)
+    2. OVER
+    3. ORDER BY (optional, typically a date column)
+    4. AS + the new column name'
+
+    -- will divide the data into 100 buckets based on the colimn in the () and assign a percentile to each row
+    SELECT  customer_id,
+        composite_score,
+        NTILE(100) OVER(ORDER BY composite_score) AS percentile
+    FROM    customer_lead_score;
     
